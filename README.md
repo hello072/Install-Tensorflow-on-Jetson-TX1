@@ -7,8 +7,7 @@ JetPack의 도움으로 ubuntu16.04,cuda8, cudnn5.1 등이 설치되었다고 �
 편의를 위해 주 작업장 /home/ubuntu/Downloads 를 HOMEPATH로 하겠습니다.
 
 일단 기본 패키지들을 설치합니다.(크롬같은건 당장은 필요없지만 그냥 ㅎㅎ)
-<pre><code>
-sudo apt-get install chromium-browser
+<pre><code>sudo apt-get install chromium-browser
 sudo apt-get install python-pip
 sudo apt-get install libopencv4tegra-python
 sudo add-apt-repository ppa:webupd8team/java
@@ -17,8 +16,7 @@ sudo apt-get install oracle-java8-installer
 sudo apt-get install git zip unzip autoconf automake libtool curl zlib1g-dev maven swig
 </code></pre>
 HOMEPATH로 가서 다음 명령어들을 통해 protobuf를 설치합니다.
-<pre><code>
-git clone https://github.com/google/protobuf.git
+<pre><code>git clone https://github.com/google/protobuf.git
 cd protobuf
 git checkout master
 ./autogen.sh
@@ -30,16 +28,14 @@ cd java
 mvn package
 </code></pre>
 다시 HOMEPATH로 가서 bazel을 내려받고 작업합니다.
-<pre><code>
-git clone https://github.com/bazelbuild/bazel.git
+<pre><code>git clone https://github.com/bazelbuild/bazel.git
 cd bazel
 git checkout 0.2.1
 cp /usr/bin/protoc third_party/protobuf/protoc-linux-arm32.exe
 cp ../protobuf/java/target/protobuf-java-3.0.0-beta-2.jar third_party/protobuf/protobuf-java-3.0.0-beta-1.jar
 </code></pre>
 HOMEPATH/bazel/src/main/java/com/google/devtools/build/lib/util/CPU.java 파일을 열고 다음과 같이 수정합니다. (- 가 붙은 줄을 지우고 +가 붙은 줄을 붙입니다.)
-<pre><code>
-@@ -25,7 +25,7 @@ import java.util.Set;
+<pre><code>@@ -25,7 +25,7 @@ import java.util.Set;
  public enum CPU {
    X86_32("x86_32", ImmutableSet.of("i386", "i486", "i586", "i686", "i786", "x86")),
    X86_64("x86_64", ImmutableSet.of("amd64", "x86_64", "x64")),
@@ -48,17 +44,15 @@ HOMEPATH/bazel/src/main/java/com/google/devtools/build/lib/util/CPU.java 파일�
    UNKNOWN("unknown", ImmutableSet.<String>of());
 </code></pre>
 HOMEPATH/bazel로 가서 다음 명령어를 통해 bazel을 설치합니다.
-<pre><code>
-./compile.sh
+<pre><code>./compile.sh
 sudo cp output/bazel /usr/local/bin
 </code></pre>
-
-## HOMEPATH로 가서 다음 명령어를 통해 tensorflow를 설치합니다.
-git clone -b r0.9 https://github.com/tensorflow/tensorflow.git
+HOMEPATH로 가서 다음 명령어를 통해 tensorflow를 설치합니다.
+<pre><code>git clone -b r0.9 https://github.com/tensorflow/tensorflow.git
 cd tensorflow
 ./configure
 bazel build -c opt --local_resources 2048,.5,1.0 --config=cuda //tensorflow/tools/pip_package:build_pip_package
-
+</code></pre>
 
 ## 아마 잘 되는 것 같다가 실패할텐데, 일부러 실패한 것입니다. 이제 다음 명령어를 입력하세요! (여기서 폴더명 f596b50637e57f31ad9bfc386482aa22은 사람마다 다릅니다. 각자 폴더 탐험을 통해 폴더명을 알아내세요!)
 
