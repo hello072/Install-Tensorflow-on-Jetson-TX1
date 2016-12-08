@@ -2,12 +2,13 @@ Install-Tensorflow-and-Caffe-on-Jetson-TX1
 ========
 ##JetPack2.3을 설치한 TX1에 Tensorflow 설치하기! (Caffe 설치는 맨 뒷장으로 가세요.)
 --------------
-
 JetPack의 도움으로 ubuntu16.04,cuda8, cudnn5.1 등이 설치되었다고 가정합니다.
+
 편의를 위해 주 작업장 /home/ubuntu/Downloads 를 HOMEPATH로 하겠습니다.
 
+일단 기본 패키지들을 설치합니다.(크롬같은건 당장은 필요없지만 그냥 ㅎㅎ)
 
-##일단 기본 패키지들을 설치합니다.(크롬같은건 당장은 필요없지만 그냥 ㅎㅎ)
+<pre><code>
 sudo apt-get install chromium-browser
 sudo apt-get install python-pip
 sudo apt-get install libopencv4tegra-python
@@ -15,7 +16,7 @@ sudo add-apt-repository ppa:webupd8team/java
 sudo apt-get update
 sudo apt-get install oracle-java8-installer
 sudo apt-get install git zip unzip autoconf automake libtool curl zlib1g-dev maven swig
-
+</code></pre>
 
 ##HOMEPATH로 가서 다음 명령어들을 통해 protobuf를 설치합니다.
 git clone https://github.com/google/protobuf.git
