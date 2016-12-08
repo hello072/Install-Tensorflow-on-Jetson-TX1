@@ -53,19 +53,15 @@ cd tensorflow
 ./configure
 bazel build -c opt --local_resources 2048,.5,1.0 --config=cuda //tensorflow/tools/pip_package:build_pip_package
 </code></pre>
-
-## 아마 잘 되는 것 같다가 실패할텐데, 일부러 실패한 것입니다. 이제 다음 명령어를 입력하세요! (여기서 폴더명 f596b50637e57f31ad9bfc386482aa22은 사람마다 다릅니다. 각자 폴더 탐험을 통해 폴더명을 알아내세요!)
-
-
-cd ~
+아마 잘 되는 것 같다가 실패할텐데, 일부러 실패한 것입니다. 이제 다음 명령어를 입력하세요! (여기서 폴더명 f596b50637e57f31ad9bfc386482aa22은 사람마다 다릅니다. 각자 폴더 탐험을 통해 폴더명을 알아내세요!)
+<pre><code>cd ~
 wget -O config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 wget -O config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
 cp config.guess ./.cache/bazel/_bazel_ubuntu/f596b50637e57f31ad9bfc386482aa22/external/farmhash_archive/farmhash-34c13ddfab0e35422f4c3979f360635a8c050260/config.guess
 cp config.sub ./.cache/bazel/_bazel_ubuntu/f596b50637e57f31ad9bfc386482aa22/external/farmhash_archive/farmhash-34c13ddfab0e35422f4c3979f360635a8c050260/config.sub
-
-
-## HOMEPATH/tensorflow/tensorflow/core/kernels/BUILD 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
-@@ -985,7 +985,7 @@ tf_kernel_libraries(
+</code></pre>
+HOMEPATH/tensorflow/tensorflow/core/kernels/BUILD 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
+<pre><code>@@ -985,7 +985,7 @@ tf_kernel_libraries(
          "reduction_ops",
          "segment_reduction_ops",
          "sequence_ops",
@@ -74,10 +70,9 @@ cp config.sub ./.cache/bazel/_bazel_ubuntu/f596b50637e57f31ad9bfc386482aa22/exte
      ],
      deps = [
          ":bounds_check",
-
-
-## In HOMEPATH/tensorflow/tensorflow/python/BUILD 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
-@@ -1110,7 +1110,7 @@ medium_kernel_test_list = glob([
+</code></pre>
+In HOMEPATH/tensorflow/tensorflow/python/BUILD 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
+<pre><code>@@ -1110,7 +1110,7 @@ medium_kernel_test_list = glob([
      "kernel_tests/seq2seq_test.py",
      "kernel_tests/slice_op_test.py",
      "kernel_tests/sparse_ops_test.py",
@@ -85,12 +80,10 @@ cp config.sub ./.cache/bazel/_bazel_ubuntu/f596b50637e57f31ad9bfc386482aa22/exte
 +    #DC "kernel_tests/sparse_matmul_op_test.py",
      "kernel_tests/sparse_tensor_dense_matmul_op_test.py",
  ])
-
-
-## In HOMEPATH/tensorflow/tensorflow/core/kernels/cwise_op_gpu_select.cu.cc 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
-@@ -43,8 +43,14 @@ struct BatchSelectFunctor<GPUDevice, T> {
+</code></pre>
+In HOMEPATH/tensorflow/tensorflow/core/kernels/cwise_op_gpu_select.cu.cc 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
+<pre><code>@@ -43,8 +43,14 @@ struct BatchSelectFunctor<GPUDevice, T> {
      const int all_but_batch = then_flat_outer_dims.dimension(1);
-
 
  #if !defined(EIGEN_HAS_INDEX_LIST)
 -    Eigen::array<int, 2> broadcast_dims{{ 1, all_but_batch }};
@@ -106,12 +99,10 @@ cp config.sub ./.cache/bazel/_bazel_ubuntu/f596b50637e57f31ad9bfc386482aa22/exte
  #else
      Eigen::IndexList<Eigen::type2index<1>, int> broadcast_dims;
      broadcast_dims.set(1, all_but_batch);
-
-
-## In HOMEPATH/tensorflow/tensorflow/core/kernels/sparse_tensor_dense_matmul_op_gpu.cu.cc 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
-@@ -104,9 +104,17 @@ struct SparseTensorDenseMatMulFunctor<GPUDevice, T, ADJ_A, ADJ_B> {
+</code></pre>
+In HOMEPATH/tensorflow/tensorflow/core/kernels/sparse_tensor_dense_matmul_op_gpu.cu.cc 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
+<pre><code>@@ -104,9 +104,17 @@ struct SparseTensorDenseMatMulFunctor<GPUDevice, T, ADJ_A, ADJ_B> {
      int n = (ADJ_B) ? b.dimension(0) : b.dimension(1);
-
 
  #if !defined(EIGEN_HAS_INDEX_LIST)
 -    Eigen::Tensor<int, 2>::Dimensions matrix_1_by_nnz{{ 1, nnz }};
@@ -131,10 +122,9 @@ cp config.sub ./.cache/bazel/_bazel_ubuntu/f596b50637e57f31ad9bfc386482aa22/exte
  #else
      Eigen::IndexList<Eigen::type2index<1>, int> matrix_1_by_nnz;
      matrix_1_by_nnz.set(1, nnz);
-
-
-## In HOMEPATH/tensorflow/tensorflow/stream_executor/cuda/cuda_blas.cc 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
-@@ -25,6 +25,12 @@ limitations under the License.
+</code></pre>
+In HOMEPATH/tensorflow/tensorflow/stream_executor/cuda/cuda_blas.cc 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
+<pre><code>@@ -25,6 +25,12 @@ limitations under the License.
  #define EIGEN_HAS_CUDA_FP16
  #endif
 
@@ -163,10 +153,9 @@ cp config.sub ./.cache/bazel/_bazel_ubuntu/f596b50637e57f31ad9bfc386482aa22/exte
  #else
    LOG(ERROR) << "fp16 sgemm is not implemented in this cuBLAS version "
               << "(need at least CUDA 7.5)";
-
-
-## In HOMEPATH/tensorflow/tensorflow/stream_executor/cuda/cuda_gpu_executor.cc 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
-@@ -888,6 +888,9 @@ CudaContext* CUDAExecutor::cuda_context() { return context_; }
+</code></pre>
+In HOMEPATH/tensorflow/tensorflow/stream_executor/cuda/cuda_gpu_executor.cc 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
+<pre><code>@@ -888,6 +888,9 @@ CudaContext* CUDAExecutor::cuda_context() { return context_; }
  // For anything more complicated/prod-focused than this, you'll likely want to
  // turn to gsys' topology modeling.
  static int TryToReadNumaNode(const string &pci_bus_id, int device_ordinal) {
@@ -176,35 +165,32 @@ cp config.sub ./.cache/bazel/_bazel_ubuntu/f596b50637e57f31ad9bfc386482aa22/exte
  #if defined(__APPLE__)
    LOG(INFO) << "OS X does not support NUMA - returning NUMA node zero";
    return 0;
+</code></pre>
+아마 지금쯤 메모리 사용량이 좀 클텐데, refresh 차원에서 재부팅을 해봅시다! (효과가 있는지는 모르겠으나 ㅎㅎ 제가 했던 과정을 그대로 말씀드리는 것이니... 재량껏...)
 
+In HOMEPATH/tensorflow 에서 다음 명령어들을 통해 tensorflow를 진짜로 설치합니다.
 
-## 아마 지금쯤 메모리 사용량이 좀 클텐데, refresh 차원에서 재부팅을 해봅시다! (효과가 있는지는 모르겠으나 ㅎㅎ 제가 했던 과정을 그대로 말씀드리는 것이니... 재량껏...)
-## In HOMEPATH/tensorflow 에서 다음 명령어들을 통해 tensorflow를 진짜로 설치합니다.
-## 메모리가 적은 tx1 특성상 --local_resources 2048,.5,1.0 명령어를 통해 메모리사용 제한을 걸어주는 것이 중요합니다. 안그러면 메모리 초과로 팅기더라고요!
-## 설치 도중 튕기는 경우가 간혹 있는데, 다시 시도하면 설치가 계속 진행됩니다. 될 때까지 고고!
-./configure
+메모리가 적은 tx1 특성상 --local_resources 2048,.5,1.0 명령어를 통해 메모리사용 제한을 걸어주는 것이 중요합니다. 안그러면 메모리 초과로 팅기더라고요!
+
+설치 도중 튕기는 경우가 간혹 있는데, 다시 시도하면 설치가 계속 진행됩니다. 될 때까지 고고!
+<pre><code>./configure
 bazel build -c opt --local_resources 2048,.5,1.0 --config=cuda //tensorflow/tools/pip_package:build_pip_package
 bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
 pip install /tmp/tensorflow_pkg/tensorflow-0.9.0-py2-none-any.whl
+</code></pre>
+이제 터미널에서 python을 켜서 import tensorflow로 확인을 해보세요~ CUDA 관련 메시지가 뜨면서 import되면 정상!
 
-
-## 이제 터미널에서 python을 켜서 import tensorflow로 확인을 해보세요~ CUDA 관련 메시지가 뜨면서 import되면 정상!
-
-
-
 ##JetPack2.3을 설치한 TX1에 Caffe 설치하기!
-##JetPack의 도움으로 ubuntu16.04,cuda8, cudnn5.1 등이 설치되었다고 가정합니다.
-
-
-##편의를 위해 주 작업장 /home/ubuntu/Downloads 를 HOMEPATH로 하겠습니다.
-##HOMEPATH에서 다음 명령을 통해 Caffe 설치 스크립트를 다운받습니다.
-$ git clone https://github.com/jetsonhacks/installCaffeJTX1.git
-$ cd installCaffeJTX1
-
-
-##installCaffe.sh 파일을 열고 make -j4 를 make -j 3 으로 바꿉니다. (4로 하면 CPU를 모두 사용하게 되어 뻑날 수 있다고 하여 군말없이 그냥 바꿨습니다.)
-##그 다음 다음 명령어를 통해 Caffe를 설치합니다.
-$ ./installCaffe.sh
-
+--------------
+JetPack의 도움으로 ubuntu16.04,cuda8, cudnn5.1 등이 설치되었다고 가정합니다.
+편의를 위해 주 작업장 /home/ubuntu/Downloads 를 HOMEPATH로 하겠습니다.
+HOMEPATH에서 다음 명령을 통해 Caffe 설치 스크립트를 다운받습니다.
+<pre><code>git clone https://github.com/jetsonhacks/installCaffeJTX1.git
+cd installCaffeJTX1
+</code></pre>
+installCaffe.sh 파일을 열고 make -j4 를 make -j 3 으로 바꿉니다. (4로 하면 CPU를 모두 사용하게 되어 뻑날 수 있다고 하여 군말없이 그냥 바꿨습니다.)
+그 다음 다음 명령어를 통해 Caffe를 설치합니다.
+<pre><code>./installCaffe.sh
+</code></pre>
 
 
