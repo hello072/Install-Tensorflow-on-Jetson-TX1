@@ -37,8 +37,8 @@ git checkout 0.2.1
 cp /usr/bin/protoc third_party/protobuf/protoc-linux-arm32.exe
 cp ../protobuf/java/target/protobuf-java-3.0.0-beta-2.jar third_party/protobuf/protobuf-java-3.0.0-beta-1.jar
 </code></pre>
-
-## HOMEPATH/bazel/src/main/java/com/google/devtools/build/lib/util/CPU.java 파일을 열고 다음과 같이 수정합니다. (- 가 붙은 줄을 지우고 +가 붙은 줄을 붙입니다.)
+HOMEPATH/bazel/src/main/java/com/google/devtools/build/lib/util/CPU.java 파일을 열고 다음과 같이 수정합니다. (- 가 붙은 줄을 지우고 +가 붙은 줄을 붙입니다.)
+<pre><code>
 @@ -25,7 +25,7 @@ import java.util.Set;
  public enum CPU {
    X86_32("x86_32", ImmutableSet.of("i386", "i486", "i586", "i686", "i786", "x86")),
@@ -46,12 +46,12 @@ cp ../protobuf/java/target/protobuf-java-3.0.0-beta-2.jar third_party/protobuf/p
 -  ARM("arm", ImmutableSet.of("arm", "armv7l")),
 +  ARM("arm", ImmutableSet.of("arm", "armv7l", "aarch64")),
    UNKNOWN("unknown", ImmutableSet.<String>of());
-
-
-## HOMEPATH/bazel로 가서 다음 명령어를 통해 bazel을 설치합니다.
+</code></pre>
+HOMEPATH/bazel로 가서 다음 명령어를 통해 bazel을 설치합니다.
+<pre><code>
 ./compile.sh
 sudo cp output/bazel /usr/local/bin
-
+</code></pre>
 
 ## HOMEPATH로 가서 다음 명령어를 통해 tensorflow를 설치합니다.
 git clone -b r0.9 https://github.com/tensorflow/tensorflow.git
