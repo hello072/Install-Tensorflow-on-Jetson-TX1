@@ -127,8 +127,6 @@ In HOMEPATH/tensorflow/tensorflow/stream_executor/cuda/cuda_blas.cc 파일을 �
 <pre><code>@@ -25,6 +25,12 @@ limitations under the License.
  #define EIGEN_HAS_CUDA_FP16
  #endif
-
-
 +#if CUDA_VERSION >= 8000
 +#define SE_CUDA_DATA_HALF CUDA_R_16F
 +#else
@@ -136,8 +134,6 @@ In HOMEPATH/tensorflow/tensorflow/stream_executor/cuda/cuda_blas.cc 파일을 �
 +#endif
 +
  #include "tensorflow/stream_executor/cuda/cuda_blas.h"
-
- #include <dlfcn.h>
 @@ -1680,10 +1686,10 @@ bool CUDABlas::DoBlasGemm(
    return DoBlasInternal(
        dynload::cublasSgemmEx, stream, true /* = pointer_mode_host */,
@@ -191,4 +187,4 @@ installCaffe.sh 파일을 열고 make -j4 를 make -j3 으로 바꿉니다.
 그 다음 명령어를 통해 Caffe를 설치합니다.
 <pre><code>./installCaffe.sh
 </code></pre>
-/home 폴더에 caffe가 생겼음을 확인합니다.
+/home 폴더에 caffe가 생겼다면 정상!
