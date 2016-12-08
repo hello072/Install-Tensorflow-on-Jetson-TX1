@@ -1,5 +1,4 @@
 # Install-Tensorflow-and-Caffe-on-Jetson-TX1
-Documents about how to install Tensorflow and Caffe on Jetson TX1
 ##JetPack2.3을 설치한 TX1에 Tensorflow 설치하기! (Caffe 설치는 맨 뒷장으로 가세요.)
 ##JetPack의 도움으로 ubuntu16.04,cuda8, cudnn5.1 등이 설치되었다고 가정합니다.
 
