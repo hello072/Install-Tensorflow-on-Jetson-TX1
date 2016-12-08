@@ -52,7 +52,7 @@ cp /usr/bin/protoc third_party/protobuf/protoc-linux-arm32.exe
 
 cp ../protobuf/java/target/protobuf-java-3.0.0-beta-2.jar third_party/protobuf/protobuf-java-3.0.0-beta-1.jar
 
-### HOMEPATH/bazel/src/main/java/com/google/devtools/build/lib/util/CPU.java 파일을 열고 다음과 같이 수정합니다. (- 가 붙은 줄을 지우고 +가 붙은 줄을 붙입니다.)
+### HOMEPATH/bazel/src/main/java/com/google/devtools/build/lib/util/CPU.java 파일을 열고 다음과 같이 수정합니다. (-- 가 붙은 줄을 지우고 ++가 붙은 줄을 붙입니다.)
    X86_32("x86_32", ImmutableSet.of("i386", "i486", "i586", "i686", "i786", "x86")),
 
    X86_64("x86_64", ImmutableSet.of("amd64", "x86_64", "x64")),
@@ -89,16 +89,16 @@ cp config.guess ./.cache/bazel/_bazel_ubuntu/f596b50637e57f31ad9bfc386482aa22/ex
 
 cp config.sub ./.cache/bazel/_bazel_ubuntu/f596b50637e57f31ad9bfc386482aa22/external/farmhash_archive/farmhash-34c13ddfab0e35422f4c3979f360635a8c050260/config.sub
 
-### HOMEPATH/tensorflow/tensorflow/core/kernels/BUILD 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
+### HOMEPATH/tensorflow/tensorflow/core/kernels/BUILD 파일을 열어서 다음과 같이 수정하세요.
    "reduction_ops",
          
    "segment_reduction_ops",
          
    "sequence_ops",
          
--  "sparse_matmul_op",
+--  "sparse_matmul_op",
 
-+  #DC "sparse_matmul_op",
+++  #DC "sparse_matmul_op",
 
    ],
      
@@ -106,103 +106,161 @@ cp config.sub ./.cache/bazel/_bazel_ubuntu/f596b50637e57f31ad9bfc386482aa22/exte
      
       ":bounds_check",
 
-### In HOMEPATH/tensorflow/tensorflow/python/BUILD 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
+### In HOMEPATH/tensorflow/tensorflow/python/BUILD 파일을 열어서 다음과 같이 수정하세요.
    "kernel_tests/seq2seq_test.py",
      
    "kernel_tests/slice_op_test.py",
      
    "kernel_tests/sparse_ops_test.py",
 
--  "kernel_tests/sparse_matmul_op_test.py",
+--  "kernel_tests/sparse_matmul_op_test.py",
 
-+  #DC "kernel_tests/sparse_matmul_op_test.py",
+++  #DC "kernel_tests/sparse_matmul_op_test.py",
      
    "kernel_tests/sparse_tensor_dense_matmul_op_test.py",
 
-### In HOMEPATH/tensorflow/tensorflow/core/kernels/cwise_op_gpu_select.cu.cc 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
+### In HOMEPATH/tensorflow/tensorflow/core/kernels/cwise_op_gpu_select.cu.cc 파일을 열어서 다음과 같이 수정하세요.
 @@ -43,8 +43,14 @@ struct BatchSelectFunctor<GPUDevice, T> {
+
      const int all_but_batch = then_flat_outer_dims.dimension(1);
 
-
  #if !defined(EIGEN_HAS_INDEX_LIST)
--    Eigen::array<int, 2> broadcast_dims{{ 1, all_but_batch }};
--    Eigen::Tensor<int, 2>::Dimensions reshape_dims{{ batch, 1 }};
-+    //DC Eigen::array<int, 2> broadcast_dims{{ 1, all_but_batch }};
-+    Eigen::array<int, 2> broadcast_dims;
-+    broadcast_dims[0] = 1;
-+    broadcast_dims[1] = all_but_batch;
-+    //DC Eigen::Tensor<int, 2>::Dimensions reshape_dims{{ batch, 1 }};
-+    Eigen::Tensor<int, 2>::Dimensions reshape_dims;
-+    reshape_dims[0] = batch;
-+    reshape_dims[1] = 1;
+ 
+--    Eigen::array<int, 2> broadcast_dims{{ 1, all_but_batch }};
+
+--    Eigen::Tensor<int, 2>::Dimensions reshape_dims{{ batch, 1 }};
+
+++    //DC Eigen::array<int, 2> broadcast_dims{{ 1, all_but_batch }};
+
+++    Eigen::array<int, 2> broadcast_dims;
+
+++    broadcast_dims[0] = 1;
+
+++    broadcast_dims[1] = all_but_batch;
+
+++    //DC Eigen::Tensor<int, 2>::Dimensions reshape_dims{{ batch, 1 }};
+
+++    Eigen::Tensor<int, 2>::Dimensions reshape_dims;
+
+++    reshape_dims[0] = batch;
+
+++    reshape_dims[1] = 1;
+
  #else
+ 
      Eigen::IndexList<Eigen::type2index<1>, int> broadcast_dims;
+     
      broadcast_dims.set(1, all_but_batch);
 
-### In HOMEPATH/tensorflow/tensorflow/core/kernels/sparse_tensor_dense_matmul_op_gpu.cu.cc 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
+### In HOMEPATH/tensorflow/tensorflow/core/kernels/sparse_tensor_dense_matmul_op_gpu.cu.cc 파일을 열어서 다음과 같이 수정하세요.
 @@ -104,9 +104,17 @@ struct SparseTensorDenseMatMulFunctor<GPUDevice, T, ADJ_A, ADJ_B> {
+
      int n = (ADJ_B) ? b.dimension(0) : b.dimension(1);
 
  #if !defined(EIGEN_HAS_INDEX_LIST)
--    Eigen::Tensor<int, 2>::Dimensions matrix_1_by_nnz{{ 1, nnz }};
--    Eigen::array<int, 2> n_by_1{{ n, 1 }};
--    Eigen::array<int, 1> reduce_on_rows{{ 0 }};
-+    //DC Eigen::Tensor<int, 2>::Dimensions matrix_1_by_nnz{{ 1, nnz }};
-+    Eigen::Tensor<int, 2>::Dimensions matrix_1_by_nnz;
-+    matrix_1_by_nnz[0] = 1;
-+    matrix_1_by_nnz[1] = nnz;
-+    //DC Eigen::array<int, 2> n_by_1{{ n, 1 }};
-+    Eigen::array<int, 2> n_by_1;
-+    n_by_1[0] = n;
-+    n_by_1[1] = 1;
-+    //DC Eigen::array<int, 1> reduce_on_rows{{ 0 }};
-+    Eigen::array<int, 1> reduce_on_rows;
-+    reduce_on_rows[0] = 0;
+ 
+--    Eigen::Tensor<int, 2>::Dimensions matrix_1_by_nnz{{ 1, nnz }};
+
+--    Eigen::array<int, 2> n_by_1{{ n, 1 }};
+
+--    Eigen::array<int, 1> reduce_on_rows{{ 0 }};
+
+++    //DC Eigen::Tensor<int, 2>::Dimensions matrix_1_by_nnz{{ 1, nnz }};
+
+++    Eigen::Tensor<int, 2>::Dimensions matrix_1_by_nnz;
+
+++    matrix_1_by_nnz[0] = 1;
+
+++    matrix_1_by_nnz[1] = nnz;
+
+++    //DC Eigen::array<int, 2> n_by_1{{ n, 1 }};
+
+++    Eigen::array<int, 2> n_by_1;
+
+++    n_by_1[0] = n;
+
+++    n_by_1[1] = 1;
+
+++    //DC Eigen::array<int, 1> reduce_on_rows{{ 0 }};
+
+++    Eigen::array<int, 1> reduce_on_rows;
+
+++    reduce_on_rows[0] = 0;
+
  #else
+ 
      Eigen::IndexList<Eigen::type2index<1>, int> matrix_1_by_nnz;
+     
      matrix_1_by_nnz.set(1, nnz);
 
-### In HOMEPATH/tensorflow/tensorflow/stream_executor/cuda/cuda_blas.cc 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
+### In HOMEPATH/tensorflow/tensorflow/stream_executor/cuda/cuda_blas.cc 파일을 열어서 다음과 같이 수정하세요.
 @@ -25,6 +25,12 @@ limitations under the License.
+
  #define EIGEN_HAS_CUDA_FP16
+ 
  #endif
 
+++#if CUDA_VERSION >= 8000
 
-+#if CUDA_VERSION >= 8000
-+#define SE_CUDA_DATA_HALF CUDA_R_16F
-+#else
-+#define SE_CUDA_DATA_HALF CUBLAS_DATA_HALF
-+#endif
-+
+++#define SE_CUDA_DATA_HALF CUDA_R_16F
+
+++#else
+
+++#define SE_CUDA_DATA_HALF CUBLAS_DATA_HALF
+
+++#endif
+
  #include "tensorflow/stream_executor/cuda/cuda_blas.h"
 
-
  #include <dlfcn.h>
+
 @@ -1680,10 +1686,10 @@ bool CUDABlas::DoBlasGemm(
+
    return DoBlasInternal(
+   
        dynload::cublasSgemmEx, stream, true /* = pointer_mode_host */,
+       
        CUDABlasTranspose(transa), CUDABlasTranspose(transb), m, n, k, &alpha,
--      CUDAMemory(a), CUBLAS_DATA_HALF, lda,
--      CUDAMemory(b), CUBLAS_DATA_HALF, ldb,
-+      CUDAMemory(a), SE_CUDA_DATA_HALF, lda,
-+      CUDAMemory(b), SE_CUDA_DATA_HALF, ldb,
+       
+--      CUDAMemory(a), CUBLAS_DATA_HALF, lda,
+
+--      CUDAMemory(b), CUBLAS_DATA_HALF, ldb,
+
+++      CUDAMemory(a), SE_CUDA_DATA_HALF, lda,
+
+++      CUDAMemory(b), SE_CUDA_DATA_HALF, ldb,
+
        &beta,
--      CUDAMemoryMutable(c), CUBLAS_DATA_HALF, ldc);
-+      CUDAMemoryMutable(c), SE_CUDA_DATA_HALF, ldc);
+       
+--      CUDAMemoryMutable(c), CUBLAS_DATA_HALF, ldc);
+
+++      CUDAMemoryMutable(c), SE_CUDA_DATA_HALF, ldc);
+
  #else
+ 
    LOG(ERROR) << "fp16 sgemm is not implemented in this cuBLAS version "
+   
               << "(need at least CUDA 7.5)";
 
-### In HOMEPATH/tensorflow/tensorflow/stream_executor/cuda/cuda_gpu_executor.cc 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
+### In HOMEPATH/tensorflow/tensorflow/stream_executor/cuda/cuda_gpu_executor.cc 파일을 열어서 다음과 같이 수정하세요.
 @@ -888,6 +888,9 @@ CudaContext* CUDAExecutor::cuda_context() { return context_; }
+
  // For anything more complicated/prod-focused than this, you'll likely want to
+ 
  // turn to gsys' topology modeling.
+ 
  static int TryToReadNumaNode(const string &pci_bus_id, int device_ordinal) {
-+  // DC - make this clever later. ARM has no NUMA node, just return 0
-+  LOG(INFO) << "ARM has no NUMA node, hardcoding to return zero";
-+  return 0;
+ 
+++  // DC - make this clever later. ARM has no NUMA node, just return 0
+
+++  LOG(INFO) << "ARM has no NUMA node, hardcoding to return zero";
+
+++  return 0;
+
  #if defined(__APPLE__)
+ 
    LOG(INFO) << "OS X does not support NUMA - returning NUMA node zero";
+   
    return 0;
 
 
