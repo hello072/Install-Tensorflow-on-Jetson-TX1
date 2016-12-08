@@ -122,7 +122,7 @@ cp config.sub ./.cache/bazel/_bazel_ubuntu/f596b50637e57f31ad9bfc386482aa22/exte
 ### In HOMEPATH/tensorflow/tensorflow/core/kernels/cwise_op_gpu_select.cu.cc 파일을 열어서 다음과 같이 수정하세요.
 @@ -43,8 +43,14 @@ struct BatchSelectFunctor<GPUDevice, T> {
 
-     const int all_but_batch = then_flat_outer_dims.dimension(1);
+      const int all_but_batch = then_flat_outer_dims.dimension(1);
 
  #if !defined(EIGEN_HAS_INDEX_LIST)
  
@@ -148,9 +148,9 @@ cp config.sub ./.cache/bazel/_bazel_ubuntu/f596b50637e57f31ad9bfc386482aa22/exte
 
  #else
  
-     Eigen::IndexList<Eigen::type2index<1>, int> broadcast_dims;
+      Eigen::IndexList<Eigen::type2index<1>, int> broadcast_dims;
      
-     broadcast_dims.set(1, all_but_batch);
+      broadcast_dims.set(1, all_but_batch);
 
 ### In HOMEPATH/tensorflow/tensorflow/core/kernels/sparse_tensor_dense_matmul_op_gpu.cu.cc 파일을 열어서 다음과 같이 수정하세요.
 @@ -104,9 +104,17 @@ struct SparseTensorDenseMatMulFunctor<GPUDevice, T, ADJ_A, ADJ_B> {
@@ -189,9 +189,9 @@ cp config.sub ./.cache/bazel/_bazel_ubuntu/f596b50637e57f31ad9bfc386482aa22/exte
 
  #else
  
-     Eigen::IndexList<Eigen::type2index<1>, int> matrix_1_by_nnz;
+      Eigen::IndexList<Eigen::type2index<1>, int> matrix_1_by_nnz;
      
-     matrix_1_by_nnz.set(1, nnz);
+      matrix_1_by_nnz.set(1, nnz);
 
 ### In HOMEPATH/tensorflow/tensorflow/stream_executor/cuda/cuda_blas.cc 파일을 열어서 다음과 같이 수정하세요.
 @@ -25,6 +25,12 @@ limitations under the License.
