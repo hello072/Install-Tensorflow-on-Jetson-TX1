@@ -71,7 +71,7 @@ HOMEPATH/tensorflow/tensorflow/core/kernels/BUILD 파일을 열어서 다음과 
      deps = [
          ":bounds_check",
 </code></pre>
-In HOMEPATH/tensorflow/tensorflow/python/BUILD 파일을 열어서 다음과 같이 수정하세요.
+HOMEPATH/tensorflow/tensorflow/python/BUILD 파일을 열어서 다음과 같이 수정하세요.
 <pre><code>@@ -1110,7 +1110,7 @@ medium_kernel_test_list = glob([
      "kernel_tests/seq2seq_test.py",
      "kernel_tests/slice_op_test.py",
@@ -81,7 +81,7 @@ In HOMEPATH/tensorflow/tensorflow/python/BUILD 파일을 열어서 다음과 같
      "kernel_tests/sparse_tensor_dense_matmul_op_test.py",
  ])
 </code></pre>
-In HOMEPATH/tensorflow/tensorflow/core/kernels/cwise_op_gpu_select.cu.cc 파일을 열어서 다음과 같이 수정하세요.
+HOMEPATH/tensorflow/tensorflow/core/kernels/cwise_op_gpu_select.cu.cc 파일을 열어서 다음과 같이 수정하세요.
 <pre><code>@@ -43,8 +43,14 @@ struct BatchSelectFunctor<GPUDevice, T> {
      const int all_but_batch = then_flat_outer_dims.dimension(1);
 
@@ -100,7 +100,7 @@ In HOMEPATH/tensorflow/tensorflow/core/kernels/cwise_op_gpu_select.cu.cc 파일�
      Eigen::IndexList<Eigen::type2index<1>, int> broadcast_dims;
      broadcast_dims.set(1, all_but_batch);
 </code></pre>
-In HOMEPATH/tensorflow/tensorflow/core/kernels/sparse_tensor_dense_matmul_op_gpu.cu.cc 파일을 열어서 다음과 같이 수정하세요.
+HOMEPATH/tensorflow/tensorflow/core/kernels/sparse_tensor_dense_matmul_op_gpu.cu.cc 파일을 열어서 다음과 같이 수정하세요.
 <pre><code>@@ -104,9 +104,17 @@ struct SparseTensorDenseMatMulFunctor<GPUDevice, T, ADJ_A, ADJ_B> {
      int n = (ADJ_B) ? b.dimension(0) : b.dimension(1);
 
@@ -123,7 +123,7 @@ In HOMEPATH/tensorflow/tensorflow/core/kernels/sparse_tensor_dense_matmul_op_gpu
      Eigen::IndexList<Eigen::type2index<1>, int> matrix_1_by_nnz;
      matrix_1_by_nnz.set(1, nnz);
 </code></pre>
-In HOMEPATH/tensorflow/tensorflow/stream_executor/cuda/cuda_blas.cc 파일을 열어서 다음과 같이 수정하세요.
+HOMEPATH/tensorflow/tensorflow/stream_executor/cuda/cuda_blas.cc 파일을 열어서 다음과 같이 수정하세요.
 <pre><code>@@ -25,6 +25,12 @@ limitations under the License.
  #define EIGEN_HAS_CUDA_FP16
  #endif
@@ -149,7 +149,7 @@ In HOMEPATH/tensorflow/tensorflow/stream_executor/cuda/cuda_blas.cc 파일을 �
    LOG(ERROR) << "fp16 sgemm is not implemented in this cuBLAS version "
               << "(need at least CUDA 7.5)";
 </code></pre>
-In HOMEPATH/tensorflow/tensorflow/stream_executor/cuda/cuda_gpu_executor.cc 파일을 열어서 다음과 같이 수정하세요.
+HOMEPATH/tensorflow/tensorflow/stream_executor/cuda/cuda_gpu_executor.cc 파일을 열어서 다음과 같이 수정하세요.
 <pre><code>@@ -888,6 +888,9 @@ CudaContext* CUDAExecutor::cuda_context() { return context_; }
  // For anything more complicated/prod-focused than this, you'll likely want to
  // turn to gsys' topology modeling.
@@ -163,7 +163,7 @@ In HOMEPATH/tensorflow/tensorflow/stream_executor/cuda/cuda_gpu_executor.cc 파�
 </code></pre>
 아마 지금쯤 메모리 사용량이 좀 클텐데, refresh 차원에서 재부팅을 해봅시다! (효과가 있는지는 모르겠으나 ㅎㅎ 재량껏...)
 
-In HOMEPATH/tensorflow 에서 다음 명령어들을 통해 tensorflow를 진짜로 설치합니다.
+HOMEPATH/tensorflow 에서 다음 명령어들을 통해 tensorflow를 진짜로 설치합니다.
 
 메모리가 적은 tx1 특성상 --local_resources 2048,.5,1.0 명령어를 통해 메모리사용 제한을 걸어주는 것이 중요합니다.
 
@@ -178,13 +178,17 @@ pip install /tmp/tensorflow_pkg/tensorflow-0.9.0-py2-none-any.whl
 ##JetPack2.3을 설치한 TX1에 Caffe 설치하기!
 --------------
 JetPack의 도움으로 ubuntu16.04,cuda8, cudnn5.1 등이 설치되었다고 가정합니다.
+
 OpenCV 혹은 OpenCV4Tegra가 설치되어 있어야 합니다.
+
 편의를 위해 주 작업장 /home/ubuntu/Downloads 를 HOMEPATH로 하겠습니다.
+
 HOMEPATH에서 다음 명령을 통해 Caffe 설치 스크립트를 다운받습니다.
 <pre><code>git clone https://github.com/jetsonhacks/installCaffeJTX1.git
 cd installCaffeJTX1
 </code></pre>
 installCaffe.sh 파일을 열고 make -j4 를 make -j3 으로 바꿉니다.
+
 그 다음 명령어를 통해 Caffe를 설치합니다.
 <pre><code>./installCaffe.sh
 </code></pre>
