@@ -57,9 +57,9 @@ cp ../protobuf/java/target/protobuf-java-3.0.0-beta-2.jar third_party/protobuf/p
 
    X86_64("x86_64", ImmutableSet.of("amd64", "x86_64", "x64")),
 
--  ARM("arm", ImmutableSet.of("arm", "armv7l")),
+-- ARM("arm", ImmutableSet.of("arm", "armv7l")),
 
-+  ARM("arm", ImmutableSet.of("arm", "armv7l", "aarch64")),
+++ ARM("arm", ImmutableSet.of("arm", "armv7l", "aarch64")),
 
    UNKNOWN("unknown", ImmutableSet.<String>of());
 
