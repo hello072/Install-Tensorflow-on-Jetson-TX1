@@ -90,34 +90,34 @@ cp config.guess ./.cache/bazel/_bazel_ubuntu/f596b50637e57f31ad9bfc386482aa22/ex
 cp config.sub ./.cache/bazel/_bazel_ubuntu/f596b50637e57f31ad9bfc386482aa22/external/farmhash_archive/farmhash-34c13ddfab0e35422f4c3979f360635a8c050260/config.sub
 
 ### HOMEPATH/tensorflow/tensorflow/core/kernels/BUILD 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
-         "reduction_ops",
+   "reduction_ops",
          
-         "segment_reduction_ops",
+   "segment_reduction_ops",
          
-         "sequence_ops",
+   "sequence_ops",
          
--        "sparse_matmul_op",
+-  "sparse_matmul_op",
 
-+        #DC "sparse_matmul_op",
++  #DC "sparse_matmul_op",
 
-     ],
+   ],
      
-     deps = [
+   deps = [
      
-         ":bounds_check",
+      ":bounds_check",
 
 ### In HOMEPATH/tensorflow/tensorflow/python/BUILD 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
-     "kernel_tests/seq2seq_test.py",
+   "kernel_tests/seq2seq_test.py",
      
-     "kernel_tests/slice_op_test.py",
+   "kernel_tests/slice_op_test.py",
      
-     "kernel_tests/sparse_ops_test.py",
+   "kernel_tests/sparse_ops_test.py",
 
--    "kernel_tests/sparse_matmul_op_test.py",
+-  "kernel_tests/sparse_matmul_op_test.py",
 
-+    #DC "kernel_tests/sparse_matmul_op_test.py",
++  #DC "kernel_tests/sparse_matmul_op_test.py",
      
-     "kernel_tests/sparse_tensor_dense_matmul_op_test.py",
+   "kernel_tests/sparse_tensor_dense_matmul_op_test.py",
 
 ### In HOMEPATH/tensorflow/tensorflow/core/kernels/cwise_op_gpu_select.cu.cc 파일을 열어서 다음과 같이 수정하세요 (- 붙은 줄 지우고! + 분은 줄 추가!)
 @@ -43,8 +43,14 @@ struct BatchSelectFunctor<GPUDevice, T> {
