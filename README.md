@@ -132,8 +132,8 @@ In HOMEPATH/tensorflow/tensorflow/stream_executor/cuda/cuda_blas.cc 파일을 �
 +#else
 +#define SE_CUDA_DATA_HALF CUBLAS_DATA_HALF
 +#endif
-+
  #include "tensorflow/stream_executor/cuda/cuda_blas.h"
+
 @@ -1680,10 +1686,10 @@ bool CUDABlas::DoBlasGemm(
    return DoBlasInternal(
        dynload::cublasSgemmEx, stream, true /* = pointer_mode_host */,
@@ -178,6 +178,7 @@ pip install /tmp/tensorflow_pkg/tensorflow-0.9.0-py2-none-any.whl
 ##JetPack2.3을 설치한 TX1에 Caffe 설치하기!
 --------------
 JetPack의 도움으로 ubuntu16.04,cuda8, cudnn5.1 등이 설치되었다고 가정합니다.
+OpenCV 혹은 OpenCV4Tegra가 설치되어 있어야 합니다.
 편의를 위해 주 작업장 /home/ubuntu/Downloads 를 HOMEPATH로 하겠습니다.
 HOMEPATH에서 다음 명령을 통해 Caffe 설치 스크립트를 다운받습니다.
 <pre><code>git clone https://github.com/jetsonhacks/installCaffeJTX1.git
