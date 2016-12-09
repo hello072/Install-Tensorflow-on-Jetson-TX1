@@ -174,22 +174,3 @@ bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
 pip install /tmp/tensorflow_pkg/tensorflow-0.9.0-py2-none-any.whl
 </code></pre>
 이제 터미널에서 python을 켜서 import tensorflow로 확인을 해보세요~ CUDA 관련 메시지가 뜨면서 import되면 정상!
-
-##JetPack2.3을 설치한 TX1에 Caffe 설치하기!
---------------
-JetPack의 도움으로 ubuntu16.04,cuda8, cudnn5.1 등이 설치되었다고 가정합니다.
-
-OpenCV 혹은 OpenCV4Tegra가 설치되어 있어야 합니다.
-
-편의를 위해 주 작업장 /home/ubuntu/Downloads 를 HOMEPATH로 하겠습니다.
-
-HOMEPATH에서 다음 명령을 통해 Caffe 설치 스크립트를 다운받습니다.
-<pre><code>git clone https://github.com/jetsonhacks/installCaffeJTX1.git
-cd installCaffeJTX1
-</code></pre>
-installCaffe.sh 파일을 열고 make -j4 를 make -j3 으로 바꿉니다.
-
-그 다음 명령어를 통해 Caffe를 설치합니다.
-<pre><code>./installCaffe.sh
-</code></pre>
-/home 폴더에 caffe가 생겼다면 정상!
